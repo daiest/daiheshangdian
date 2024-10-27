@@ -1,84 +1,242 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>呆核商店</title>
+    <title>呆核商店 - 智能手表社区和应用商店</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
+            box-sizing: border-box;
         }
-        .container {
-            max-width: 375px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .logo img {
-            width: 100px;
-            height: auto;
-        }
-        .title {
-            text-align: center;
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .description {
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
-        }
-        .screenshot {
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding-top: 500px; /* 添加的上内边距 */
+        }
+
+        .app-card {
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+
+        .app-icon {
+            width: 150px;
+            height: 150px;
+            border-radius: 25px;
             margin-bottom: 20px;
         }
-        .screenshot img {
-            width: 48%;
+
+        .app-name {
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .app-description {
+            color: #666;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .download-button {
+            background-color: black;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-button:hover {
+            background-color: #1a1a1a;
+        }
+
+        .time_axis {
+            width: 90%;
+            max-width: 802px;
+            margin: 0 auto;
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .time_left, .time_right {
+            width: calc(50% - 10px);
+            border: 2px solid #b1bbf9;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .time_left {
+            border-right: none;
+        }
+
+        .time_right {
+            border-left: none;
+        }
+
+        .time_axis .time_dian {
+            width: 10px;
+            height: 10px;
+            background-color: #FFF;
+            display: block;
+            border: 2px solid #b1bbf9;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            margin-top: -7px;
+        }
+
+        .time_left .time_dian {
+            right: -9px;
+        }
+
+        .time_right .time_dian {
+            left: -9px;
+        }
+
+        .time_axis .jiantou_left, .time_axis .jiantou_right {
+            position: absolute;
+            top: 50%;
+            margin-top: -16px;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+        }
+
+        .time_axis .jiantou_left {
+            right: -30px;
+            border-left: 15px solid #FFF;
+        }
+
+        .time_axis .jiantou_right {
+            left: -30px;
+            border-right: 15px solid #FFF;
+        }
+
+        .time_axis .con {
+            background-color: #FFF;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .con img {
+            width: 100%;
+            max-width: 100%;
             height: auto;
         }
-        .download-button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: #4caf50;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-            margin-top: 20px;
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .time_left, .time_right {
+                width: 100%;
+                border-right: 2px solid #b1bbf9;
+                border-left: 2px solid #b1bbf9;
+            }
+
+            .time_left .time_dian, .time_right .time_dian {
+                display: none;
+            }
+
+            .time_axis .jiantou_left, .time_axis .jiantou_right {
+                display: none;
+            }
         }
-        .download-button:hover {
-            background-color: #45a049;
+
+        /* 设置雪花的样式 */
+        .snowflake {
+            position: absolute;
+            top: 10px;
+            width: 10px;
+            height: 10px;
+            background-color: skyblue;
+            border-radius: 50%;
+            opacity: 0.8;
+            user-select: none;
+            animation: snowfall 10s linear infinite;
+        }
+
+        /* 定义雪花下落的动画 */
+        @keyframes snowfall {
+            0% {
+                transform: translateX(0px) translateY(0px) rotate(0deg);
+            }
+            100% {
+                transform: translateX(100vw) translateY(100vh) rotate(360deg);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="logo.png" alt="小趣空间 Logo">
+    <div class="app-card">
+        <img class="app-icon" src="logo.png" alt="呆核商店App图标">
+        <div class="app-name">呆核商店</div>
+        <div class="app-description">
+            如您所见，呆核商店是轻量级交流社区，我们拥有上千款应用任您挑选，便捷的沟通交流社区，即使是零基础的小白用户也能轻松上手智能手表。
         </div>
-        <div class="title">呆核商店</div>
-        <div class="description">
-            如您所见，呆核是轻量级交流社区，我们拥有上千款应用任您挑选，便捷的沟通交流社区，即使是零基础的小白用户也能轻松上手智能手表。
-        </div>
-        <div class="screenshot">
-            <img src="screenshot1.png" alt="1">
-            <img src="screenshot2.png" alt="2">
-            <img src="screenshot3.png" alt="3">
-        </div>
-        <a href="#" class="download-button">立即下载</a>
+        <a href="/404.html" class="download-button">立即下载</a>
     </div>
+
+    <div class="time_axis">
+        <div class="time_left">
+            <span class="time_dian"></span>
+            <span class="jiantou_left"></span>
+            <div class="con">
+                <h3>呆核</h3>
+                <span>1.0</span>
+                <img src="https://img1.baidu.com/it/u=413643897,2296924942&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1681405200&t=9243e3c17ae7567e4725cc9b65d4fccc" alt="">
+            </div>
+        </div>
+        <div class="time_right">
+            <span class="time_dian"></span>
+            <span class="jiantou_right"></span>
+            <div class="con">
+                <h3>呆核</h3>
+                <span>2.0</span>
+                <img src="https://img1.baidu.com/it/u=413643897,2296924942&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1681405200&t=9243e3c17ae7567e4725cc9b65d4fccc" alt="">
+            </div>
+        </div>
+        <!-- 根据需要添加更多的 .time_left 和 .time_right -->
+    </div>
+
+    <script>
+        // 创建雪花的函数
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = (5 + Math.random() * 10) + 's';
+            snowflake.style.animationDelay = (-Math.random() * 10) + 's';
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, (5 + Math.random() * 10) * 1000);
+        }
+
+        // 每隔一段时间生成一个雪花
+        setInterval(createSnowflake, 200);
+    </script>
 </body>
 </html>
